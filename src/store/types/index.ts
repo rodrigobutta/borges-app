@@ -1,5 +1,5 @@
 import { ThunkAction } from 'redux-thunk';
-import { StoreActionTypes } from './src/store/actions';
+import { StoreActionTypes } from '../actions';
 
 export interface IUser {
   name: string;
@@ -9,6 +9,12 @@ export interface IUser {
 export interface ISubscription {
   name: string;
   price: number;
+}
+
+export interface ICurrentLocation {
+  lat: number;
+  lng: number;
+  date: Date | null;
 }
 
 // =================
@@ -23,9 +29,10 @@ export interface IUSerState {
 export interface IStoreState {
   userState: IUSerState;
   subscriptionState: ISubscription;
+  currentLocationState: ICurrentLocation;
 }
 
-export type IStoreStateTypes = IUSerState & ISubscription;
+export type IStoreStateTypes = IUSerState & ISubscription & ICurrentLocation;
 
 // =================
 // ACTIONS
@@ -43,6 +50,11 @@ export interface IUpdateRandomUser {
 export interface IUpdateSubscriptionName {
   type: string;
   payload: string;
+}
+
+export interface IUpdateCurrentLocation {
+  type: string;
+  payload: ICurrentLocation;
 }
 
 // =================

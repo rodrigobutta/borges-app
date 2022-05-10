@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet, StatusBar } from 'react-native';
 import { NavigationScreenProp, NavigationState, NavigationParams } from 'react-navigation';
-import { IUser, ISubscription } from '../store/types';
+import { IUser, ISubscription, ICurrentLocation } from '../store/types';
 import env from '../env';
 
 interface IProps {
@@ -9,8 +9,10 @@ interface IProps {
   user: IUser;
   randomUser: any;
   subscription: ISubscription;
+  currentLocation: ICurrentLocation;
   onUpdateUserName(name: string): void;
   onUpdateSubscriptionName(name: string): void;
+  onUpdateCurrentLocation(location: ICurrentLocation): void;
   onGetRandomUser(): void;
 }
 
@@ -39,12 +41,18 @@ export default class Home extends Component<IProps> {
           <View>
             <Text>{this.props.subscription.name}</Text>
           </View>
+          <View>
+            <Text>
+              LOCATION {this.props.currentLocation.lat} {this.props.currentLocation.lng}
+            </Text>
+          </View>
         </View>
         <View style={styles.randomUser}>
           <Text>{JSON.stringify(this.props.randomUser)}</Text>
         </View>
-        <Button title='Go to  Foo' onPress={() => this.props.navigation.navigate('Foo')} />
-        <Button title='Go to  Bar' onPress={() => this.props.navigation.navigate('Bar')} />
+        <Button title='Go to UserLocation' onPress={() => this.props.navigation.navigate('UserLocation')} />
+        <Button title='Go to Foo' onPress={() => this.props.navigation.navigate('Foo')} />
+        <Button title='Go to Bar' onPress={() => this.props.navigation.navigate('Bar')} />
         <Button title='Go to Baz' onPress={() => this.props.navigation.navigate('Baz')} />
         <Button
           title='Update user name'
@@ -53,6 +61,10 @@ export default class Home extends Component<IProps> {
         <Button
           title='Update subscription name'
           onPress={() => this.props.onUpdateSubscriptionName(`subscription-${this.randomString(5)}`)}
+        />
+        <Button
+          title='Update current location'
+          onPress={() => this.props.onUpdateCurrentLocation({ lat: 1, lng: 1, date: null })}
         />
         <Button title='Get random user' onPress={() => this.props.onGetRandomUser()} />
       </View>

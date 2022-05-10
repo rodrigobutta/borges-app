@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import * as eventTypes from './eventTypes';
 import { MiddlewareAPI, Dispatch } from 'redux';
-import { StoreActionTypes } from './src/store/actions';
+import { StoreActionTypes } from '../../actions';
 
 const createMySocketMiddleware = () => {
   return (storeAPI: MiddlewareAPI) => {
@@ -12,7 +12,7 @@ const createMySocketMiddleware = () => {
       reconnectionAttempts: Infinity,
     });
 
-    socket.on(eventTypes.CONNECT, (data: any) => {
+    socket.on(eventTypes.CONNECT, () => {
       console.log('Socket connected');
 
       // storeAPI.dispatch({
@@ -24,7 +24,7 @@ const createMySocketMiddleware = () => {
     });
 
     socket.on(eventTypes.DISCONNECT, (data: any) => {
-      console.log('socket disconnected');
+      console.log('socket disconnected', data);
     });
 
     return (next: Dispatch<StoreActionTypes>) => (action: StoreActionTypes) => {

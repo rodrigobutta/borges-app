@@ -4,12 +4,14 @@ import Home from '../containers/Home';
 import Foo from '../screens/Foo';
 import Bar from '../screens/Bar';
 import Baz from '../screens/Baz';
+import UserLocation from '../screens/UserLocation';
 
 const stackNavigator = createStackNavigator({
   Home,
   Foo,
   Bar,
   Baz,
+  UserLocation,
 });
 
 export default createAppContainer(stackNavigator);
