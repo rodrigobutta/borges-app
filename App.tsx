@@ -10,7 +10,6 @@ const AppRoot: React.FC<IProps> = (props: IProps) => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <h1>Brunooooooo</h1>
         <RootNavigation />
       </PersistGate>
     </Provider>
