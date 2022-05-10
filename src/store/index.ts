@@ -3,10 +3,10 @@ import { createStore, applyMiddleware } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import thunkMiddleware from 'redux-thunk';
 import logger from 'redux-logger';
-import rootReducer from '@/store/reducers';
-import { randomUserTransform } from '@/store/transforms';
+import rootReducer from '../store/reducers';
+import { randomUserTransform } from '../store/transforms';
 import storage from 'redux-persist/lib/storage';
-// import createMySocketMiddleware from '@/store/middlewares/sockets'
+// import createMySocketMiddleware from '../store/middlewares/sockets'
 
 const persistConfig = {
   key: 'root',

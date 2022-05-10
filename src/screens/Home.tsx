@@ -1,38 +1,28 @@
-import React, { Component } from 'react'
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  StatusBar,
-} from 'react-native'
-import {
-  NavigationScreenProp,
-  NavigationState,
-  NavigationParams,
-} from 'react-navigation'
-import { IUser, ISubscription } from '@/store/types'
-import env from '@/env'
+import React, { Component } from 'react';
+import { View, Text, Button, StyleSheet, StatusBar } from 'react-native';
+import { NavigationScreenProp, NavigationState, NavigationParams } from 'react-navigation';
+import { IUser, ISubscription } from '../store/types';
+import env from '../env';
 
 interface IProps {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>,
-  user: IUser,
-  randomUser: any,
-  subscription: ISubscription,
-  onUpdateUserName(name: string): void,
-  onUpdateSubscriptionName(name: string): void,
-  onGetRandomUser(): void,
+  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
+  user: IUser;
+  randomUser: any;
+  subscription: ISubscription;
+  onUpdateUserName(name: string): void;
+  onUpdateSubscriptionName(name: string): void;
+  onGetRandomUser(): void;
 }
 
 export default class Home extends Component<IProps> {
   public randomString(length: number) {
-    let result = ''
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    const charactersLength = characters.length
-    for ( let i = 0; i < length; i++ ) {
-       result += characters.charAt(Math.floor(Math.random() * charactersLength))
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    return result
+    return result;
   }
 
   public render() {
@@ -51,22 +41,11 @@ export default class Home extends Component<IProps> {
           </View>
         </View>
         <View style={styles.randomUser}>
-          <Text>
-            {JSON.stringify(this.props.randomUser)}
-          </Text>
+          <Text>{JSON.stringify(this.props.randomUser)}</Text>
         </View>
-        <Button
-          title='Go to  Foo'
-          onPress={() => this.props.navigation.navigate('Foo')}
-        />
-        <Button
-          title='Go to  Bar'
-          onPress={() => this.props.navigation.navigate('Bar')}
-        />
-        <Button
-          title='Go to Baz'
-          onPress={() => this.props.navigation.navigate('Baz')}
-        />
+        <Button title='Go to  Foo' onPress={() => this.props.navigation.navigate('Foo')} />
+        <Button title='Go to  Bar' onPress={() => this.props.navigation.navigate('Bar')} />
+        <Button title='Go to Baz' onPress={() => this.props.navigation.navigate('Baz')} />
         <Button
           title='Update user name'
           onPress={() => this.props.onUpdateUserName(`username-${this.randomString(5)}`)}
@@ -75,12 +54,9 @@ export default class Home extends Component<IProps> {
           title='Update subscription name'
           onPress={() => this.props.onUpdateSubscriptionName(`subscription-${this.randomString(5)}`)}
         />
-        <Button
-          title='Get random user'
-          onPress={() => this.props.onGetRandomUser()}
-        />
+        <Button title='Get random user' onPress={() => this.props.onGetRandomUser()} />
       </View>
-    )
+    );
   }
 }
 
@@ -98,4 +74,4 @@ const styles = StyleSheet.create({
   randomUser: {
     paddingHorizontal: 30,
   },
-})
+});

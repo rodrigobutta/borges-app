@@ -1,18 +1,14 @@
-import { createTransform } from 'redux-persist'
-import { IUSerState, IStoreStateTypes } from '@/store/types'
+import { createTransform } from 'redux-persist';
+import { IUSerState, IStoreStateTypes } from './src/store/types';
 
-const randomUserTransform = createTransform(
-  (inboundState: IStoreStateTypes, key: any) => {
-    if (key === 'userState') {
-      const inboundStateClone: IUSerState = { ...inboundState }
-      inboundStateClone.randomUser = {}
-      return inboundStateClone
-    }
+const randomUserTransform = createTransform((inboundState: IStoreStateTypes, key: any) => {
+  if (key === 'userState') {
+    const inboundStateClone: IUSerState = { ...inboundState };
+    inboundStateClone.randomUser = {};
+    return inboundStateClone;
+  }
 
-    return inboundState
-  },
-)
+  return inboundState;
+});
 
-export {
-  randomUserTransform,
-}
+export { randomUserTransform };

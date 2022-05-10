@@ -1,5 +1,3 @@
-import * as thunkUser from '@/store/middlewares/thunks/thunkUser'
+import * as thunkUser from './thunkUser';
 
-export {
-  thunkUser,
-}
+export { thunkUser };

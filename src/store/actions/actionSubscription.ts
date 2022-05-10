@@ -1,20 +1,14 @@
-import {
-  UPDATE_SUBSCRIPTION_NAME,
-} from '@/store/constants/actionTypes'
-import {
-  IUpdateSubscriptionName,
-} from '@/store/types'
+import { UPDATE_SUBSCRIPTION_NAME } from '../constants/actionTypes';
+import { IUpdateSubscriptionName } from '../types';
 
 const subscriptionAction = {
-  updateSubscriptionName(
-    name: string,
-  ): IUpdateSubscriptionName {
+  updateSubscriptionName(name: string): IUpdateSubscriptionName {
     return {
       type: UPDATE_SUBSCRIPTION_NAME,
       payload: name,
-    }
+    };
   },
-}
+};
 
-export default subscriptionAction
-export type SubscriptionActionTypes = IUpdateSubscriptionName
+export default subscriptionAction;
+export type SubscriptionActionTypes = IUpdateSubscriptionName;
