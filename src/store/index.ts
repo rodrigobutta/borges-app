@@ -5,13 +5,14 @@ import thunkMiddleware from 'redux-thunk';
 import logger from 'redux-logger';
 import rootReducer from '../store/reducers';
 import { randomUserTransform } from '../store/transforms';
-import storage from 'redux-persist/lib/storage';
+// import storage from 'redux-persist/lib/storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import createMySocketMiddleware from '../store/middlewares/sockets'
 
 const persistConfig = {
   key: 'root',
-  // storage: AsyncStorage,
-  storage,
+  storage: AsyncStorage,
+  // storage,
   blacklist: ['subscriptionState', 'currentLocationState'], // not persist subscriptionState (value will be reset when app restarts)
   transforms: [randomUserTransform], // ignore field 'randomUser' in 'userState' (Explain: to not persist a nested field, we use transform)
 };

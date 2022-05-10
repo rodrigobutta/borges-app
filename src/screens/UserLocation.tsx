@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
 import axios from 'axios';
+import { ICurrentLocation } from '../store/types';
+import { store } from '../store';
+import { actionCurrentLocation } from '../store/actions';
 
 const LOCATION_TRACKING = 'location-tracking';
 
@@ -10,13 +13,21 @@ let mess = '';
 let lat = '';
 let lng = '';
 
-function UserLocation() {
+interface IProps {
+  currentLocation: ICurrentLocation;
+  // onUpdateCurrentLocation(location: ICurrentLocation): void;
+}
+
+function UserLocation({
+  currentLocation,
+}: // onUpdateCurrentLocation
+IProps) {
   const [locationStarted, setLocationStarted] = useState(false);
 
   const startLocationTracking = async () => {
     await Location.startLocationUpdatesAsync(LOCATION_TRACKING, {
       accuracy: Location.Accuracy.Highest,
-      timeInterval: 15000,
+      timeInterval: 7000,
       distanceInterval: 1, // minimum change (in meters) betweens updates
       deferredUpdatesInterval: 1000, // minimum interval (in milliseconds) between updates
       // foregroundService is how you get the task to be updated as often as would be if the app was open
@@ -60,6 +71,9 @@ function UserLocation() {
 
   return (
     <View>
+      <Text>
+        LOCATION {currentLocation.lat} {currentLocation.lng}
+      </Text>
       <Text>Mess: {mess}</Text>
       <Text>
         Loc: {lat} {lng}
@@ -106,6 +120,8 @@ TaskManager.defineTask(LOCATION_TRACKING, async ({ data, error }) => {
     lng = longitude;
 
     console.log(`${new Date(Date.now()).toLocaleString()}: ${latitude},${longitude}`);
+
+    store.dispatch(actionCurrentLocation.updateCurrentLocation({ lat: latitude, lng: longitude, date: null }));
 
     const [location] = locations;
     try {
