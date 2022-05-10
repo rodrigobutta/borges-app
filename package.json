@@ -1,7 +1,8 @@
 {
-  "name": "bruno3",
+  "name": "borges",
   "version": "0.0.1",
   "private": true,
+  "author": "rodrigo butta",
   "scripts": {
     "test": "jest",
     "lint": "eslint .",
