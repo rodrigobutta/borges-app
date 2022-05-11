@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
 });
 
 TaskManager.defineTask(LOCATION_TRACKING, async ({ data, error }) => {
-  console.log('AAA TaskManager.defineTask');
+  console.log('TaskManager.defineTask', LOCATION_TRACKING);
 
   if (error) {
     console.log('LOCATION_TRACKING task ERROR:', error);
@@ -123,10 +123,9 @@ TaskManager.defineTask(LOCATION_TRACKING, async ({ data, error }) => {
 
     store.dispatch(actionCurrentLocation.updateCurrentLocation({ lat: latitude, lng: longitude, date: null }));
 
-    const [location] = locations;
     try {
-      const url = `https://rodrigobutta.free.beeceptor.com/location/${latitude}/${longitude}`;
-      await axios.post(url, { location });
+      const url = `http://192.168.0.204:3090/tracker/c8ef2f93-42fe-4ca5-95f0-288cb5ebf738/track`;
+      await axios.post(url, { lat, lng });
     } catch (err) {
       console.error(err);
     }
