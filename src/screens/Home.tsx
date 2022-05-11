@@ -50,7 +50,8 @@ export default class Home extends Component<IProps> {
         <View style={styles.randomUser}>
           <Text>{JSON.stringify(this.props.randomUser)}</Text>
         </View>
-        <Button title='Go to UserLocation' onPress={() => this.props.navigation.navigate('UserLocation')} />
+        <Button title='UserLocation' onPress={() => this.props.navigation.navigate('UserLocation')} />
+        <Button title='Sensors' onPress={() => this.props.navigation.navigate('Sensors')} />
         <Button title='Go to Foo' onPress={() => this.props.navigation.navigate('Foo')} />
         <Button title='Go to Bar' onPress={() => this.props.navigation.navigate('Bar')} />
         <Button title='Go to Baz' onPress={() => this.props.navigation.navigate('Baz')} />

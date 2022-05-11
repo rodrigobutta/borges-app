@@ -5,6 +5,7 @@ import Foo from '../screens/Foo';
 import Bar from '../screens/Bar';
 import Baz from '../screens/Baz';
 import UserLocation from '../containers/UserLocation';
+import Sensors from '../screens/Sensors';
 
 const stackNavigator = createStackNavigator(
   {
@@ -13,6 +14,7 @@ const stackNavigator = createStackNavigator(
     Bar,
     Baz,
     UserLocation,
+    Sensors,
   },
   { initialRouteKey: 'Home' },
 );
