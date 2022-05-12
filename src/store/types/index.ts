@@ -6,9 +6,9 @@ export interface IUser {
   age: number;
 }
 
-export interface ISubscription {
+export interface ITracker {
+  id: string | null;
   name: string;
-  price: number;
 }
 
 export interface ICurrentLocation {
@@ -28,11 +28,11 @@ export interface IUSerState {
 
 export interface IStoreState {
   userState: IUSerState;
-  subscriptionState: ISubscription;
+  trackerState: ITracker;
   currentLocationState: ICurrentLocation;
 }
 
-export type IStoreStateTypes = IUSerState & ISubscription & ICurrentLocation;
+export type IStoreStateTypes = IUSerState & ITracker & ICurrentLocation;
 
 // =================
 // ACTIONS
@@ -47,7 +47,7 @@ export interface IUpdateRandomUser {
   payload: any;
 }
 
-export interface IUpdateSubscriptionName {
+export interface IUpdateTrackerId {
   type: string;
   payload: string;
 }

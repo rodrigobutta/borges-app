@@ -1,23 +1,37 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, StatusBar } from 'react-native';
 import { NavigationScreenProp, NavigationState, NavigationParams } from 'react-navigation';
-import { IUser, ISubscription, ICurrentLocation } from '../store/types';
+import { IUser, ITracker, ICurrentLocation } from '../store/types';
+import * as SecureStore from 'expo-secure-store';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 import env from '../env';
 
 interface IProps {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;
   user: IUser;
   randomUser: any;
-  subscription: ISubscription;
+  tracker: ITracker;
   currentLocation: ICurrentLocation;
   onUpdateUserName(name: string): void;
-  onUpdateSubscriptionName(name: string): void;
+  onUpdateTrackerId(id: string): void;
   onUpdateCurrentLocation(location: ICurrentLocation): void;
   onGetRandomUser(): void;
 }
 
-export default class Home extends Component<IProps> {
-  public randomString(length: number) {
+// export default class Home extends Component<IProps> {
+function Home({
+  navigation,
+  user,
+  randomUser,
+  tracker,
+  currentLocation,
+  onUpdateUserName,
+  onUpdateTrackerId,
+  onUpdateCurrentLocation,
+  onGetRandomUser,
+}: IProps) {
+  const randomString = (length: number) => {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
@@ -25,52 +39,58 @@ export default class Home extends Component<IProps> {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
-  }
+  };
 
-  public render() {
-    return (
-      <View style={styles.container}>
-        <StatusBar backgroundColor={env.color} barStyle={'dark-content'} />
-        <View style={styles.userInfo}>
-          <View>
-            <Text>{this.props.user.name}</Text>
-          </View>
-          <View>
-            <Text>{this.props.user.age}</Text>
-          </View>
-          <View>
-            <Text>{this.props.subscription.name}</Text>
-          </View>
-          <View>
-            <Text>
-              LOCATION {this.props.currentLocation.lat} {this.props.currentLocation.lng}
-            </Text>
-          </View>
+  useEffect(() => {
+    let isMounted = true;
+    const fetch = async () => {
+      let fetchTrackerId = await SecureStore.getItemAsync('secure_trackerId');
+      if (!fetchTrackerId) {
+        fetchTrackerId = uuidv4();
+        await SecureStore.setItemAsync('secure_trackerId', fetchTrackerId);
+      }
+      onUpdateTrackerId(fetchTrackerId);
+      console.log(fetchTrackerId);
+    };
+    fetch();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      <StatusBar backgroundColor={env.color} barStyle={'dark-content'} />
+      <View style={styles.userInfo}>
+        <View>
+          <Text>USER {user.name}</Text>
         </View>
-        <View style={styles.randomUser}>
-          <Text>{JSON.stringify(this.props.randomUser)}</Text>
+        {tracker && (
+          <View>
+            <Text>TRACKER ID {tracker.id}</Text>
+          </View>
+        )}
+        <View>
+          <Text>
+            LOCATION {currentLocation.lat} {currentLocation.lng}
+          </Text>
         </View>
-        <Button title='UserLocation' onPress={() => this.props.navigation.navigate('UserLocation')} />
-        <Button title='Sensors' onPress={() => this.props.navigation.navigate('Sensors')} />
-        <Button title='Go to Foo' onPress={() => this.props.navigation.navigate('Foo')} />
-        <Button title='Go to Bar' onPress={() => this.props.navigation.navigate('Bar')} />
-        <Button title='Go to Baz' onPress={() => this.props.navigation.navigate('Baz')} />
-        <Button
-          title='Update user name'
-          onPress={() => this.props.onUpdateUserName(`username-${this.randomString(5)}`)}
-        />
-        <Button
-          title='Update subscription name'
-          onPress={() => this.props.onUpdateSubscriptionName(`subscription-${this.randomString(5)}`)}
-        />
-        <Button
-          title='Update current location'
-          onPress={() => this.props.onUpdateCurrentLocation({ lat: 1, lng: 1, date: null })}
-        />
-        <Button title='Get random user' onPress={() => this.props.onGetRandomUser()} />
       </View>
-    );
-  }
+      <View style={styles.randomUser}>
+        <Text>{JSON.stringify(randomUser)}</Text>
+      </View>
+      <Button title='UserLocation' onPress={() => navigation.navigate('UserLocation')} />
+      <Button title='Sensors' onPress={() => navigation.navigate('Sensors')} />
+      <Button title='Sensor Accelerometer' onPress={() => navigation.navigate('SensorAccelerometer')} />
+      <Button title='Go to Foo' onPress={() => navigation.navigate('Foo')} />
+      <Button title='Go to Bar' onPress={() => navigation.navigate('Bar')} />
+      <Button title='Go to Baz' onPress={() => navigation.navigate('Baz')} />
+      <Button title='Update user name' onPress={() => onUpdateUserName(`username-${randomString(5)}`)} />
+      <Button title='Update current location' onPress={() => onUpdateCurrentLocation({ lat: 1, lng: 1, date: null })} />
+      <Button title='Get random user' onPress={() => onGetRandomUser()} />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -88,3 +108,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
 });
+
+export default Home;

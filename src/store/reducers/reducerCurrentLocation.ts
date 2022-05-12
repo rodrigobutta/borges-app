@@ -1,4 +1,4 @@
-import { UPDATE_CURRENT_LOCATION, UPDATE_SUBSCRIPTION_NAME } from '../constants/actionTypes';
+import { UPDATE_CURRENT_LOCATION, UPDATE_TRACKER_ID } from '../constants/actionTypes';
 import { CurrentLocationActionTypes } from '../actions/actionCurrentLocation';
 import { ICurrentLocation } from '../types';
 
