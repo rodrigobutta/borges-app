@@ -1,11 +1,12 @@
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Button, StyleSheet, StatusBar } from 'react-native';
 import { NavigationScreenProp, NavigationState, NavigationParams } from 'react-navigation';
-import { IUser, ITracker, ICurrentLocation } from '../store/types';
+import { IUser, ITracker, ICurrentLocation, INetworkState } from '../store/types';
 import * as SecureStore from 'expo-secure-store';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import * as Device from 'expo-device';
+import * as Network from 'expo-network';
 import env from '../env';
 
 interface IProps {
@@ -14,9 +15,11 @@ interface IProps {
   randomUser: any;
   tracker: ITracker;
   currentLocation: ICurrentLocation;
+  networkStatus: INetworkState;
   onUpdateUserName(name: string): void;
   onUpdateTrackerId(id: string): void;
   onUpdateCurrentLocation(location: ICurrentLocation): void;
+  onUpdateNetworkStatus(networkStatus: INetworkState): void;
   onGetRandomUser(): void;
 }
 
@@ -27,9 +30,11 @@ function Home({
   randomUser,
   tracker,
   currentLocation,
+  networkStatus,
   onUpdateUserName,
   onUpdateTrackerId,
   onUpdateCurrentLocation,
+  onUpdateNetworkStatus,
   onGetRandomUser,
 }: IProps) {
   const randomString = (length: number) => {
@@ -64,6 +69,20 @@ function Home({
     console.log(Device.brand, Device.modelName, Device.deviceYearClass);
   }, [Device]);
 
+  useEffect(() => {
+    let isMounted = true;
+    const fetch = async () => {
+      const network = await Network.getNetworkStateAsync();
+      onUpdateNetworkStatus(network as unknown as INetworkState); // TODO grab
+      console.log('NETWORK', network);
+    };
+    fetch();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [Network]);
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={env.color} barStyle={'dark-content'} />
@@ -74,6 +93,11 @@ function Home({
         {tracker && (
           <View>
             <Text>TRACKER ID {tracker.id}</Text>
+          </View>
+        )}
+        {networkStatus && (
+          <View>
+            <Text>NET {networkStatus.isInternetReachable ? 'YES' : 'NO'}</Text>
           </View>
         )}
         <View>

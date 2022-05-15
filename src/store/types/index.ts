@@ -17,6 +17,24 @@ export interface ICurrentLocation {
   date: Date | null;
 }
 
+export enum INetworkStateType {
+  NONE = 'NONE',
+  UNKNOWN = 'UNKNOWN',
+  CELLULAR = 'CELLULAR',
+  WIFI = 'WIFI',
+  BLUETOOTH = 'BLUETOOTH',
+  ETHERNET = 'ETHERNET',
+  WIMAX = 'WIMAX',
+  VPN = 'VPN',
+  OTHER = 'OTHER',
+}
+
+export type INetworkState = {
+  type?: INetworkStateType;
+  isConnected?: boolean;
+  isInternetReachable?: boolean;
+};
+
 // =================
 // STORE STATE
 // =================
@@ -30,6 +48,7 @@ export interface IStoreState {
   userState: IUSerState;
   trackerState: ITracker;
   currentLocationState: ICurrentLocation;
+  networkStatusState: INetworkState;
 }
 
 export type IStoreStateTypes = IUSerState & ITracker & ICurrentLocation;
@@ -55,6 +74,11 @@ export interface IUpdateTrackerId {
 export interface IUpdateCurrentLocation {
   type: string;
   payload: ICurrentLocation;
+}
+
+export interface IUpdateNetworkStatus {
+  type: string;
+  payload: INetworkState;
 }
 
 // =================

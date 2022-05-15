@@ -13,7 +13,7 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   // storage,
-  blacklist: ['trackerState', 'currentLocationState'], // not persist trackerState (value will be reset when app restarts)
+  blacklist: ['trackerState', 'currentLocationState', 'currentNetworkStatus'], // not persist trackerState (value will be reset when app restarts)
   transforms: [randomUserTransform], // ignore field 'randomUser' in 'userState' (Explain: to not persist a nested field, we use transform)
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
